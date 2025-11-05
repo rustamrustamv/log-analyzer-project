@@ -54,26 +54,26 @@ The architecture is designed to be secure and cloud-native.
 
 ```mermaid
 graph TD
-    subgraph Client
+    subgraph "Client"
         A["User Browser (JavaScript Frontend)"]
     end
 
-    subgraph Internet & AWS Edge
+    subgraph "Internet & AWS Edge"
         B("DNS: rustam.cloud") --> C["Elastic IP (Your Static IP)"]
         D("Firebase Authentication")
     end
 
-    subgraph AWS EC2 Instance (Docker Host)
+    subgraph "AWS EC2 Instance (Docker Host)"
         E["Security Group: Port 80, 22"]
         F["Container: logsentry-container"]
         G["IAM Role: Read Secrets Manager"]
     end
 
-    subgraph AWS Secrets Manager
+    subgraph "AWS Secrets Manager"
         H["Secrets: GEMINI_API_KEY, FIREBASE_CREDS"]
     end
 
-    subgraph Google Gemini API
+    subgraph "Google Gemini API"
         I["AI Analysis Service"]
     end
 
