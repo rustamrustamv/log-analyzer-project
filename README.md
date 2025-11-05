@@ -54,13 +54,15 @@ The architecture is designed to be secure and cloud-native.
 
 ```mermaid
 graph TD
+    %% ===== Groups =====
     subgraph Client
         A[User Browser (JavaScript Frontend)]
     end
 
     subgraph Internet & AWS Edge
-        B(DNS: rustam.cloud) --> C[Elastic IP: 35.168.123.128]
-        D(Firebase Authentication)
+        B[DNS: rustam.cloud]
+        C[Elastic IP: 35.168.123.128]
+        D[Firebase Authentication]
     end
 
     subgraph AWS EC2 Instance (Docker Host)
@@ -77,6 +79,7 @@ graph TD
         I[AI Analysis Service]
     end
 
+    %% ===== Flows =====
     A -- HTTPS --> B
     B --> C
     C -- HTTP (Port 80) --> E
@@ -89,6 +92,7 @@ graph TD
     F -- Verify ID Token --> D
     F -- AI Request --> I
 
+    %% ===== Styles =====
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#add8e6,stroke:#333,stroke-width:2px
     style C fill:#add8e6,stroke:#333,stroke-width:2px
