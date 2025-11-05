@@ -59,6 +59,7 @@ The architecture is designed to be secure and cloud-native.
 This diagram shows the flow of a user request through our live production environment on AWS.
 
 ```mermaid
+%%{init: {'theme': 'dark'}}%%
 graph TD
     subgraph "User (Client)"
         A["User @ rustam.cloud"]
@@ -103,18 +104,6 @@ graph TD
     H -- "10. Get Secrets" --> I
     J -- "11. AI Solution" --> G
     G -- "12. JSON Response" --> A
-    
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#add8e6,stroke:#333,stroke-width:2px
-    style C fill:#98fb98,stroke:#333,stroke-width:2px
-    style D fill:#add8e6,stroke:#333,stroke-width:2px
-    style E fill:#d3d3d3,stroke:#333,stroke-width:2px
-    style F fill:#ffa07a,stroke:#333,stroke-width:2px
-    style G fill:#ffb
-    style H fill:#ffd700,stroke:#333,stroke-width:2px
-    style I fill:#ffe4b5,stroke:#333,stroke-width:1px
-    style J fill:#98fb98,stroke:#333,stroke-width:2px
-    style K fill:#98fb98,stroke:#333,stroke-width:2px
 
 ```
 
