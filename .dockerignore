@@ -1,0 +1,17 @@
+# Python
+venv/
+*.pyc
+__pycache__/
+
+# Secrets - Do NOT copy secrets into the image!
+.env
+firebase_creds.json
+
+# Git
+.git/
+.gitignore
+
+# Other
+.dockerignore
+Dockerfile
+README.md

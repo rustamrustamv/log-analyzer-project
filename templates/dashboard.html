@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | LogSentry{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow-sm mb-4" style="border-top: 4px solid var(--bs-success);">
+            <div class="card-header bg-white border-0">
+                <h3 class="mb-0"><i class="bi bi-upload me-2 text-success"></i>Log File Uploader</h3>
+            </div>
+            <div class="card-body">
+                <p class="lead" id="upload-lead-text">Upload your application or system log file (.log or .txt) below to begin analysis.</p>
+                
+                <form id="upload-form" class="mt-4">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control form-control-lg" name="log_file" id="log_file_input" required>
+                        <button class="btn btn-success btn-lg" type="submit" id="upload-button">
+                            <span class="spinner-border spinner-border-sm" id="upload-spinner" style="display: none;" role="status" aria-hidden="true"></span>
+                            <i class="bi bi-activity me-1"></i> 
+                            <span id="upload-button-text">Analyze Log</span>
+                        </button>
+                    </div>
+                    <small class="form-text text-muted">Max file size: 16 MB. Only .log and .txt extensions allowed.</small>
+                </form>
+            </div>
+        </div>
+
+        <div id="analysis-results-container">
+            </div>
+
+        <div id="error-list-container">
+            </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }} <script src="{{ url_for('static', filename='dashboard_logic.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Docs | LogSentry{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-5">
+                <h1 class="display-5 fw-bold mb-4"><i class="bi bi-file-earmark-text text-primary me-2"></i>Documentation</h1>
+                
+                <h3 class="mt-5">What is LogSentry?</h3>
+                <p class="lead">LogSentry is an intelligent log analysis tool designed to help developers, SREs, and operations teams quickly diagnose and solve application errors. Instead of manually searching through thousands of lines, you can upload your log, and LogSentry will automatically identify and extract critical errors.</p>
+                <p class="lead">Its most powerful feature is the built-in AI assistant. With one click, you can get an expert-level explanation and a step-by-step solution for any detected error, dramatically reducing your Mean Time to Resolution (MTTR).</p>
+
+                <hr class="my-5">
+
+                <h3 class="fw-normal">Supported Log Formats</h3>
+                <p>LogSentry is designed for maximum flexibility. It works best with any text-based log file (`.log`, `.txt`) that uses a common "level-based" format.</p>
+                
+                <h5 class="mt-4">Primary Format (CSV-style)</h5>
+                <p>The parser is optimized for logs where each line is a record, and one of the fields (usually the second) is the log level. For example:</p>
+                
+<pre class="bg-light p-3 rounded border">
+<code>10/26/2025 10:07:25 PM, Information, ...message...
+10/26/2025 10:17:28 PM, Warning, ...message...
+10/26/2025 10:27:30 PM, Error, ...message...
+</code>
+</pre>
+
+                <h5 class="mt-4">Other Formats</h5>
+                <p>The parser will still attempt to find lines that begin with `Error,`, `Warning,`, or `Information,` even if the timestamp is missing.</p>
+
+                <hr class="my-5">
+
+                <h3 class="fw-normal">Security & Privacy</h3>
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class="bi bi-shield-fill-check fs-2 me-3"></i>
+                    <div>
+                        <strong>Your data is never stored.</strong> LogSentry processes files entirely in memory. Your log file is read, analyzed, and then immediately deleted from the server. We do not keep or review any user log data.
+                    </div>
+                </div>
+
+                <h3 class="mt-5 fw-normal">About the AI</h3>
+                <p>The "Analyze with AI" feature is available for registered users. It requires a server-side API key (set by the site administrator) to function. Your log data is sent securely to the AI provider only when you click the "Analyze" button and is not stored or logged by us.</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

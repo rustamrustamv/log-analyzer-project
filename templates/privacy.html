@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Privacy Policy | LogSentry{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-5">
+                <h1 class="display-5 fw-bold mb-4">Privacy Policy</h1>
+                <p class="text-muted">Last updated: November 4, 2025</p>
+                
+                <h3 class="mt-5">What We Collect</h3>
+                <p class="lead">LogSentry is designed with privacy as a priority. We only collect the following information:</p>
+                <ul>
+                    <li><strong>Account Information:</strong> Your email address when you register for an account. We do not collect passwords; all authentication is handled securely by Firebase Authentication.</li>
+                    <li><strong>Usage Data (Guests):</strong> For non-registered users, we store a simple, anonymous counter in your browser's session to enforce the "3 free uses" trial. This counter is not linked to any personal information.</li>
+                </ul>
+
+                <h3 class="mt-5">What We Do NOT Collect</h3>
+                <p class="lead">We do not store, log, or review the contents of the log files you upload.</p>
+                <p>All file processing and AI analysis is done in-memory. The log file you upload is deleted from our server immediately after the analysis is complete. The AI-generated solutions are also not stored.</p>
+
+                <h3 class="mt-5">How We Use Your Information</h3>
+                <p>We use your email address *only* to provide you with access to your account and to provide unlimited access to the Service's features.</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

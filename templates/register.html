@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Register for LogSentry{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header bg-dark text-white">
+                <h3 class="text-center font-weight-light my-4">
+                    <i class="bi bi-person-plus-fill me-2"></i>Create Your Account
+                </h3>
+            </div>
+            <div class="card-body">
+                
+                <form id="register-form">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                        <label for="email">Email address</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="password" placeholder="Password" required minlength="6">
+                        <label for="password">Password (min. 6 characters)</label>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" id="register-button">
+                            <span class="spinner-border spinner-border-sm" id="register-spinner" style="display: none;" role="status" aria-hidden="true"></span>
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-3">
+                    <small>Already have an account? <a href="{{ url_for('login') }}">Login here</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }} <script>
+        const registerForm = document.getElementById('register-form');
+        const spinner = document.getElementById('register-spinner');
+        const registerButton = document.getElementById('register-button');
+        
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            spinner.style.display = 'inline-block';
+            registerButton.disabled = true;
+
+            // Use Firebase to create a new user
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    spinner.style.display = 'none';
+                    showAlert('Account created! Logging you in...', 'success', false);
+                    // Redirect to the dashboard after a short delay
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                })
+                .catch((error) => {
+                    spinner.style.display = 'none';
+                    registerButton.disabled = false;
+                    console.error('Registration Error:', error.code, error.message);
+                    showAlert(`Registration Failed: ${error.message}`, 'danger');
+                });
+        });
+    </script>
+{% endblock %}

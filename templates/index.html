@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}LogSentry | AI-Powered Log Analysis in Seconds{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+    <div class="container-fluid py-5">
+        <h1 class="display-4 fw-bold">Go from Error to Solution in Seconds.</h1>
+        <p class="col-md-8 fs-4">
+            LogSentry is the intelligent, AI-powered assistant that reads your complex
+            application logs and gives you simple, actionable solutions.
+            Stop guessing, start fixing.
+        </p>
+        
+        <a class="btn btn-primary btn-lg" href="{{ url_for('register') }}" id="get-started-button">
+            <i class="bi bi-play-circle-fill me-1"></i> Get Started for Free
+        </a>
+        
+    </div>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col-md-4">
+        <div class="p-3">
+            <i class="bi bi-lightning-charge-fill" style="font-size: 3rem; color: var(--bs-primary);"></i>
+            <h2 class="fw-normal mt-2">Instant Parsing</h2>
+            <p>Upload any .log or .txt file. Our powerful parsing engine instantly reads and structures your data, automatically extracting errors and warnings.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="p-3">
+            <i class="bi bi-stars" style="font-size: 3rem; color: var(--bs-teal);"></i>
+            <h2 class="fw-normal mt-2">AI-Powered Diagnosis</h2>
+            <p>Don't just find errors—fix them. Get instant, expert-level analysis and clear, actionable solutions for any error with a single click.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="p-3">
+            <i class="bi bi-shield-shaded" style="font-size: 3rem; color: var(--bs-success);"></i>
+            <h2 class="fw-normal mt-2">Secure & Private</h2>
+            <p>Your data is your own. All log files are processed securely and are deleted immediately after analysis. We never store your logs.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }} <script>
+        // This script updates the main "Get Started" button based on auth state
+        document.addEventListener('DOMContentLoaded', () => {
+            // 'auth' is a global variable defined in base.html
+            auth.onAuthStateChanged(user => {
+                const getStartedButton = document.getElementById('get-started-button');
+                if (!getStartedButton) return; // In case element isn't on the page
+                
+                if (user) {
+                    // User is logged in
+                    getStartedButton.innerHTML = '<i class="bi bi-grid-1x2 me-1"></i> Go to Dashboard';
+                    getStartedButton.href = "{{ url_for('dashboard') }}";
+                    getStartedButton.classList.remove('btn-primary');
+                    getStartedButton.classList.add('btn-success');
+                } else {
+                    // User is logged out
+                    getStartedButton.innerHTML = '<i class="bi bi-play-circle-fill me-1"></i> Get Started for Free';
+                    getStartedButton.href = "{{ url_for('register') }}";
+                    getStartedButton.classList.add('btn-primary');
+                    getStartedButton.classList.remove('btn-success');
+                }
+            });
+        });
+    </script>
+{% endblock %}
