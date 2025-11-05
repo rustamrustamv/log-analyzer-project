@@ -53,74 +53,62 @@ The architecture is designed to be secure and cloud-native.
 ### Production Topology (AWS)
 
 ```mermaid
-graph LR
-    subgraph "User's Device"
-        direction LR
+graph TD
+    subgraph "User (Client)"
         A["User @ rustam.cloud"]
     end
-
+    
     subgraph "Public Internet"
-        direction LR
-        B(DNS: A Record)
-        C["AWS Elastic IP (Static)"]
-        D(Firebase Authentication)
+        B("DNS: rustam.cloud")
+        C("Firebase Authentication")
     end
 
     subgraph "AWS Cloud (us-east-1)"
-        direction LR
+        D["Elastic IP (Static)"]
         
         subgraph "EC2 Instance (t2.micro)"
-            direction TB
             E["Security Group (Port 80/22)"] --> F["Docker Container (logsentry:latest)"]
-            F -- "Runs as" --> G["Gunicorn Server"]
-            G -- "Serves" --> H["Flask App (app.py)"]
-            F -- "Attached at Boot" --> I["IAM Role (logsentry-ec2-role)"]
+            F --> G["Flask App (app.py)"]
+            F -- "Attached at Boot" --> H["IAM Role (logsentry-ec2-role)"]
         end
 
         subgraph "AWS Secrets Manager"
-            direction TB
-            J["Secret: GEMINI_API_KEY"]
-            K["Secret: firebase_creds.json"]
+            I["Secrets: GEMINI_API_KEY, FIREBASE_CREDS"]
         end
     end
     
     subgraph "Google Cloud"
-        direction LR
-        L(Google Gemini API)
-        M(Firebase Admin SDK)
+        J(Google Gemini API)
+        K(Firebase Admin SDK)
     end
 
     A -- "1. Visits domain" --> B
-    B -- "2. Resolves to" --> C
-    C -- "3. Forwards (Port 80)" --> E
-    A -- "4. Login/Register" --> D
-    D -- "5. Returns JWT (Token)" --> A
+    B -- "2. Resolves to" --> D
+    D -- "3. Forwards (Port 80)" --> E
+    A -- "4. Login/Register" --> C
+    C -- "5. Returns JWT (Token)" --> A
     
-    A -- "6. /upload-log (with Token)" --> F
-    H -- "7. Verify Token" --> M
-    H -- "8. (Guest) Check Session" --> H
-    H -- "9. Parse Log" --> H
+    A -- "6. API Call (with Token)" --> F
     
-    A -- "10. /analyze-error (with Token)" --> F
-    H -- "11. Verify Token" --> M
-    I -- "12. Get Secrets" --> J & K
-    H -- "13. Call AI" --> L
-    L -- "14. AI Solution" --> H
-    H -- "15. JSON Response" --> A
-
+    G -- "7. Verify Token" --> K
+    G -- "8. (Guest) Check Session" --> G
+    
+    G -- "9. AI Request" --> J
+    H -- "10. Get Secrets" --> I
+    J -- "11. AI Solution" --> G
+    G -- "12. JSON Response" --> A
+    
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#add8e6,stroke:#333,stroke-width:2px
-    style C fill:#add8e6,stroke:#333,stroke-width:2px
-    style D fill:#98fb98,stroke:#333,stroke-width:2px
-    style L fill:#98fb98,stroke:#333,stroke-width:2px
-    style M fill:#98fb98,stroke:#333,stroke-width:2px
+    style C fill:#98fb98,stroke:#333,stroke-width:2px
+    style D fill:#add8e6,stroke:#333,stroke-width:2px
     style E fill:#d3d3d3,stroke:#333,stroke-width:2px
     style F fill:#ffa07a,stroke:#333,stroke-width:2px
     style G fill:#ffb
-    style H fill:#ffb
-    style I fill:#ffd700,stroke:#333,stroke-width:2px
-    style J fill:#ffe4b5,stroke:#333,stroke-width:1px
-    style K fill:#ffe4b5,stroke:#333,stroke-width:1px
+    style H fill:#ffd700,stroke:#333,stroke-width:2px
+    style I fill:#ffe4b5,stroke:#333,stroke-width:1px
+    style J fill:#98fb98,stroke:#333,stroke-width:2px
+    style K fill:#98fb98,stroke:#333,stroke-width:2px
 
 ```
 
