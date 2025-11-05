@@ -50,46 +50,54 @@ The architecture is designed to be secure and cloud-native.
 6.  When a user uploads a log or requests AI analysis, the client sends the `fetch` request (with the token) to the Flask app.
 7.  The Flask app verifies the token with Firebase, performs the analysis, and (if needed) calls the **Google Gemini API**.
 
+### Production Topology (AWS)
+
 ```mermaid
+graph TD
+    subgraph Client
+        A[User Browser (JavaScript Frontend)]
+    end
 
-flowchart TD
-  %% ===== Nodes / Groups =====
-  subgraph Client
-    A["User Browser - JS Frontend"]
-  end
+    subgraph Internet & AWS Edge
+        B(DNS: rustam.cloud) --> C[Elastic IP: 35.168.123.128]
+        D(Firebase Authentication)
+    end
 
-  subgraph "Internet & AWS Edge"
-    B["DNS: rustam.cloud"]
-    C["Elastic IP: 35.168.123.128"]
-    D["Firebase Authentication"]
-  end
+    subgraph AWS EC2 Instance (Docker Host)
+        E[Security Group: Port 80, 22]
+        F[Container: logsentry-container]
+        G[IAM Role: Read Secrets Manager]
+    end
 
-  subgraph "AWS EC2 Instance - Docker Host"
-    E["Security Group: ports 80, 22"]
-    F["Container: logsentry-container"]
-    G["IAM Role: Read Secrets Manager"]
-  end
+    subgraph AWS Secrets Manager
+        H[Secrets: GEMINI_API_KEY, FIREBASE_CREDS]
+    end
 
-  subgraph "AWS Secrets Manager"
-    H["Secrets: GEMINI_API_KEY, FIREBASE_CREDS"]
-  end
+    subgraph Google Gemini API
+        I[AI Analysis Service]
+    end
 
-  subgraph "Google Gemini API"
-    I["AI Analysis Service"]
-  end
+    A -- HTTPS --> B
+    B --> C
+    C -- HTTP (Port 80) --> E
+    E --> F
+    F -- Initial App Startup --> G
+    G -- GetSecretValue --> H
+    A -- Authentication Request --> D
+    D -- ID Token --> A
+    A -- /upload-log, /analyze-error (with ID Token) --> F
+    F -- Verify ID Token --> D
+    F -- AI Request --> I
 
-  %% ===== Flows (one edge per line) =====
-  A ---|HTTPS| B
-  B --> C
-  C ---|HTTP 80| E
-  E --> F
-  F ---|Initial startup| G
-  G ---|GetSecretValue| H
-  A ---|Auth request| D
-  D ---|ID token| A
-  A ---|/upload-log or /analyze-error + ID token| F
-  F ---|Verify ID token| D
-  F ---|AI request| I
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#add8e6,stroke:#333,stroke-width:2px
+    style C fill:#add8e6,stroke:#333,stroke-width:2px
+    style D fill:#98fb98,stroke:#333,stroke-width:2px
+    style E fill:#d3d3d3,stroke:#333,stroke-width:2px
+    style F fill:#ffa07a,stroke:#333,stroke-width:2px
+    style G fill:#ffd700,stroke:#333,stroke-width:2px
+    style H fill:#ffd700,stroke:#333,stroke-width:2px
+    style I fill:#98fb98,stroke:#333,stroke-width:2px
 
 ```
 
