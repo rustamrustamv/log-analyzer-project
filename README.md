@@ -55,39 +55,39 @@ The architecture is designed to be secure and cloud-native.
 ```mermaid
 graph TD
     subgraph Client
-        A[User Browser (JavaScript Frontend)]
+        A["User Browser (JavaScript Frontend)"]
     end
 
     subgraph Internet & AWS Edge
-        B(DNS: rustam.cloud) --> C[Elastic IP: 35.168.123.128]
-        D(Firebase Authentication)
+        B("DNS: rustam.cloud") --> C["Elastic IP (Your Static IP)"]
+        D("Firebase Authentication")
     end
 
     subgraph AWS EC2 Instance (Docker Host)
-        E[Security Group: Port 80, 22]
-        F[Container: logsentry-container]
-        G[IAM Role: Read Secrets Manager]
+        E["Security Group: Port 80, 22"]
+        F["Container: logsentry-container"]
+        G["IAM Role: Read Secrets Manager"]
     end
 
     subgraph AWS Secrets Manager
-        H[Secrets: GEMINI_API_KEY, FIREBASE_CREDS]
+        H["Secrets: GEMINI_API_KEY, FIREBASE_CREDS"]
     end
 
     subgraph Google Gemini API
-        I[AI Analysis Service]
+        I["AI Analysis Service"]
     end
 
-    A -- HTTPS --> B
+    A -- "Visits rustam.cloud" --> B
     B --> C
-    C -- HTTP (Port 80) --> E
+    C -- "HTTP (Port 80)" --> E
     E --> F
-    F -- Initial App Startup --> G
-    G -- GetSecretValue --> H
-    A -- Authentication Request --> D
-    D -- ID Token --> A
-    A -- /upload-log, /analyze-error (with ID Token) --> F
-    F -- Verify ID Token --> D
-    F -- AI Request --> I
+    F -- "Initial App Startup" --> G
+    G -- "GetSecretValue" --> H
+    A -- "Login/Register Request" --> D
+    D -- "ID Token" --> A
+    A -- "/upload-log, /analyze-error (with ID Token)" --> F
+    F -- "Verify ID Token" --> D
+    F -- "AI Request" --> I
 
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#add8e6,stroke:#333,stroke-width:2px
