@@ -37,26 +37,12 @@ This project demonstrates a secure, automated, and cloud-native "Git-to-Producti
 * **Security (IAM & Secrets):** A professional security posture. All secrets (API keys, credentials) are stored in **AWS Secrets Manager** and are **never** in Git. The EC2 instance uses a **least-privilege IAM Role** to securely fetch its own credentials at boot time.
 * **CI/CD (GitHub Actions):** A fully automated deployment pipeline. A `git push` to the `main` branch automatically builds a new Docker image, pushes it to Docker Hub, and deploys the new container to the live EC2 server.
 
-## Architecture
-
-### Production Topology (AWS)
-
-The architecture is designed to be secure and cloud-native.
-1.  A user visits `rustam.cloud`. DNS (an "A" record) points the domain to a permanent **AWS Elastic IP**.
-2.  The Elastic IP is attached to an **EC2 Instance**. An **AWS Security Group** acts as a firewall, only allowing traffic on ports 80 (HTTP) and 22 (SSH).
-3.  On the EC2 instance, a **Docker** container (managed by Gunicorn) runs the **Flask (Python) Application**.
-4.  When the app starts, it uses its attached **IAM Role** to read its credentials (Gemini key, Firebase key) from **AWS Secrets Manager**.
-5.  When a user logs in, the **JavaScript Client** talks directly to **Firebase** to get an auth token.
-6.  When a user uploads a log or requests AI analysis, the client sends the `fetch` request (with the token) to the Flask app.
-7.  The Flask app verifies the token with Firebase, performs the analysis, and (if needed) calls the **Google Gemini API**.
-
-### Production Topology (AWS)
 
 ## Architecture
 
 ### Production Topology (AWS)
 
-This diagram shows the flow of a user request through our live production environment on AWS.
+The architecture is designed to be secure and cloud-native, following the flow below.
 
 ```mermaid
 %%{init: {'theme': 'dark'}}%%
@@ -106,6 +92,14 @@ graph TD
     G -- "12. JSON Response" --> A
 
 ```
+
+1.  A user visits `rustam.cloud`. DNS (an "A" record) points the domain to a permanent **AWS Elastic IP**.
+2.  The Elastic IP is attached to an **EC2 Instance**. An **AWS Security Group** acts as a firewall, only allowing traffic on ports 80 (HTTP) and 22 (SSH).
+3.  On the EC2 instance, a **Docker** container (managed by Gunicorn) runs the **Flask (Python) Application**.
+4.  When the app starts, it uses its attached **IAM Role** to read its credentials (Gemini key, Firebase key) from **AWS Secrets Manager**.
+5.  When a user logs in, the **JavaScript Client** talks directly to **Firebase** to get an auth token.
+6.  When a user uploads a log or requests AI analysis, the client sends the `fetch` request (with the token) to the Flask app.
+7.  The Flask app verifies the token with Firebase, performs the analysis, and (if needed) calls the **Google Gemini API**.
 
 ### CI/CD Topology (GitHub Actions)
 
