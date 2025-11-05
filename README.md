@@ -52,6 +52,12 @@ The architecture is designed to be secure and cloud-native.
 
 ### Production Topology (AWS)
 
+## Architecture
+
+### Production Topology (AWS)
+
+This diagram shows the flow of a user request through our live production environment on AWS.
+
 ```mermaid
 graph TD
     subgraph "User (Client)"
