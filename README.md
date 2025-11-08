@@ -37,7 +37,7 @@ This project demonstrates a secure, automated, and cloud-native "Git-to-Producti
 ### 1. Polished Homepage & Firebase Authentication
 The site features a professional, responsive UI and a secure, serverless authentication system with Firebase.
 
-![LogSentry Homepage](doc/logsentry-dashboard.png)
+![LogSentry Homepage](docs/logsentry-dashboard.png)
 
 ### 2. AI-Powered Error Analysis
 After uploading a log, users can get an instant, step-by-step solution for any detected error, powered by the Google Gemini API.
