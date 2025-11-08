@@ -1,10 +1,12 @@
 # LogSentry — AI-Powered Log Analysis Platform
 
-**Live Application:** ![LogSentry Homepage](docs/logsentry-homepage.png)
+
 
 A production-minded, full-stack log analysis tool that uses an AI backend to diagnose and solve application errors. This repository is a **monorepo** that contains the complete, deployable application: the Python backend, the JavaScript frontend, the Infrastructure as Code (IaC), and the CI/CD pipeline.
 
 This project demonstrates a secure, automated, and cloud-native "Git-to-Production" workflow.
+
+**Live Application:** ![LogSentry Homepage](docs/logsentry-homepage.png)
 
 ## Tech & Versions at a Glance
 
@@ -35,7 +37,7 @@ This project demonstrates a secure, automated, and cloud-native "Git-to-Producti
 ### 1. Polished Homepage & Firebase Authentication
 The site features a professional, responsive UI and a secure, serverless authentication system with Firebase.
 
-![LogSentry Homepage](docs/logsentry-homepage.png)
+![LogSentry Homepage](logsentry-dashboard.png)
 
 ### 2. AI-Powered Error Analysis
 After uploading a log, users can get an instant, step-by-step solution for any detected error, powered by the Google Gemini API.
