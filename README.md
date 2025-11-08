@@ -62,11 +62,11 @@ The architecture is designed to be secure and cloud-native, following the flow b
 %%{init: {'theme': 'dark'}}%%
 graph TD
     subgraph "User (Client)"
-        A["User @ rustam.cloud"]
+        A["User @ website"]
     end
     
     subgraph "Public Internet"
-        B("DNS: rustam.cloud")
+        B("DNS: website")
         C("Firebase Authentication")
     end
 
@@ -107,7 +107,7 @@ graph TD
 
 ```
 
-1.  A user visits `rustam.cloud`. DNS (an "A" record) points the domain to a permanent **AWS Elastic IP**.
+1.  A user visits `website`. DNS (an "A" record) points the domain to a permanent **AWS Elastic IP**.
 2.  The Elastic IP is attached to an **EC2 Instance**. An **AWS Security Group** acts as a firewall, only allowing traffic on ports 80 (HTTP) and 22 (SSH).
 3.  On the EC2 instance, a **Docker** container (managed by Gunicorn) runs the **Flask (Python) Application**.
 4.  When the app starts, it uses its attached **IAM Role** to read its credentials (Gemini key, Firebase key) from **AWS Secrets Manager**.
