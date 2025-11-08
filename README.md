@@ -1,3 +1,5 @@
+[![CI-CD for LogSentry](https://github.com/rustamrustamv/log-analyzer-project/actions/workflows/main.yml/badge.svg)](https://github.com/rustamrustamv/log-analyzer-project/actions/workflows/main.yml)
+
 # LogSentry — AI-Powered Log Analysis Platform
 
 
@@ -188,4 +190,5 @@ The production deployment is **100% automated**.
 * **HTTPS:** Implement a reverse proxy (Nginx) on the server and use **Let's Encrypt** to add free SSL/TLS (HTTPS).
 * **Database:** Add a database (like **AWS RDS for PostgreSQL**) to store user log history and analysis results.
 * **Parser Expansion:** Update `log_parser.py` to support more formats, like JSON-structured logs and Nginx access logs.
+
 * **FAQ Page:** Add a "FAQ" page to the navigation.
